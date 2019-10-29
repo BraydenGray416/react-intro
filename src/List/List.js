@@ -25,8 +25,40 @@ class List extends Component{
                     id: 4,
                     text: 'Beers'
                 }
-            ]
+            ],
+            currentItem: {
+                id: null,
+                value: ''
+            }
         }
+    }
+    handleChangeInputValue = (text) => {
+        // console.log('the input value has been changed from Form.js');
+        // console.log(text);
+        let {currentItem} = this.state;
+        currentItem.value = text;
+        this.setState({
+            currentItem: currentItem
+        })
+    }
+
+    handleSubmit = () => {
+        // console.log('we have submitted the form');
+        let {allItems, currentItem} = this.state;
+
+        const newItem = {
+            id: allItems.length + 1,
+            text: currentItem.value
+        }
+
+        allItems.push(newItem);
+
+        this.setState({
+            currentItem: {
+                id: null,
+                value: ''
+            }
+        })
     }
 
     render(){
@@ -34,7 +66,11 @@ class List extends Component{
         return(
             <div className="listContainer">
             <h1>Shopping List</h1>
-            <Form />
+            <Form
+            item={this.state.currentItem}
+            changeInputValue={this.handleChangeInputValue}
+            submit={this.handleSubmit}
+            />
             <div className="list">
             {
                 this.state.allItems.map(singleItem => {
